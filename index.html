@@ -4,6 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food for Thought</title>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyBwaG48VZccslds53WxfY378P0iXqPtLac",
+            authDomain: "foodforthought-e29a4.firebaseapp.com",
+            projectId: "foodforthought-e29a4",
+            storageBucket: "foodforthought-e29a4.appspot.com",
+            messagingSenderId: "752853183245",
+            appId: "1:752853183245:web:036a462f1635b7ece69e44",
+            measurementId: "G-0SMWPDL345"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
 </head>
 <body>
     <h1>Food for Thought - Question of the Day</h1>
