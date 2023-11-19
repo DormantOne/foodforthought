@@ -4,21 +4,32 @@ document.getElementById('emailButton').addEventListener('click', sendEmail);
 
 function generateQR() {
     var qr = new QRious({
-        element: document.getElementById('qrCodeCanvas'), // Updated to target the new canvas element
+        element: document.getElementById('qrCodeCanvas'),
         size: 200,
         value: 'Your unique response code'
     });
+
+    var qrCodeCanvas = document.getElementById('qrCodeCanvas');
+    var qrCodeURL = qrCodeCanvas.toDataURL("image/png");
+
+    // Add to Firestore
+    firebase.firestore().collection('qrcodes').add({
+        url: qrCodeURL,
+        timestamp: new Date() // Optional, for record-keeping
+    }).then(docRef => {
+        sendEmail(docRef.id); // Call sendEmail with the document ID
+    });
 }
 
-function sendEmail() {
+
+function sendEmail(docId) {
     var username = document.getElementById('username').value;
     var email = username + '@upmc.edu';
-    var qrCodeCanvas = document.getElementById('qrCodeCanvas'); // Updated to target the new canvas element
-    var qrCodeURL = qrCodeCanvas.toDataURL("image/png"); // Correctly get the data URL from the canvas
 
     var subject = encodeURIComponent('Your QR Code for Food for Thought');
-    var body = encodeURIComponent('Here is your QR code: ') + qrCodeURL;
+    var body = encodeURIComponent('Access your QR code here: ') + window.location.origin + '/path/to/qr/display/page?docId=' + docId;
 
     var mailtoLink = 'mailto:' + email + '?subject=' + subject + '&body=' + body;
     window.open(mailtoLink, '_blank');
 }
+
