@@ -8,7 +8,6 @@ function displayQRCodeData(docId) {
 
     docRef.get().then(function(doc) {
         if (doc.exists) {
-            // Retrieve the data URL from Firestore and display it as text
             var qrData = doc.data().url;
             document.getElementById('qrCodeData').textContent = qrData.substring(0, 200); // Display first 200 characters
         } else {
@@ -21,10 +20,15 @@ function displayQRCodeData(docId) {
     });
 }
 
-var docId = getQueryParam('docId');
-if (docId) {
-    displayQRCodeData(docId);
-} else {
-    console.log("Document ID not provided");
-    document.getElementById('qrCodeData').textContent = "Document ID not provided";
-}
+// For testing with a hardcoded document ID
+var testDocId = 'XVg9Fgmm3Sz43DRRTuhB'; // Replace with a valid document ID from Firestore
+displayQRCodeData(testDocId);
+
+// Comment out this section when testing with a hardcoded document ID
+// var docId = getQueryParam('docId');
+// if (docId) {
+//     displayQRCodeData(docId);
+// } else {
+//     console.log("Document ID not provided");
+//     document.getElementById('qrCodeData').textContent = "Document ID not provided";
+// }
