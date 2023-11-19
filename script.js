@@ -25,11 +25,12 @@ function generateQR() {
 function sendEmail(docId) {
     var username = document.getElementById('username').value;
     var email = username + '@upmc.edu';
-
     var subject = encodeURIComponent('Your QR Code for Food for Thought');
-    // Corrected the URL concatenation
-    var body = encodeURIComponent('Access your QR code here: ') + encodeURIComponent(window.location.origin + '/qrDisplay.html?docId=' + docId);
+    
+    // Include the repository name in the URL
+    var body = encodeURIComponent('Access your QR code here: ') + encodeURIComponent(`https://dormantone.github.io/foodforthought/qrDisplay.html?docId=${docId}`);
 
     var mailtoLink = 'mailto:' + email + '?subject=' + subject + '&body=' + body;
     window.open(mailtoLink, '_blank');
 }
+
