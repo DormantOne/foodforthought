@@ -27,7 +27,7 @@ function sendEmail(docId) {
     var email = username + '@upmc.edu';
 
     var subject = encodeURIComponent('Your QR Code for Food for Thought');
-    var body = encodeURIComponent('Access your QR code here: ') + window.location.origin + '/path/to/qr/display/page?docId=' + docId;
+    var body = encodeURIComponent('Access your QR code here: ') + window.location.origin + '/qrDisplay.html?docId=' + docId;
 
     var mailtoLink = 'mailto:' + email + '?subject=' + subject + '&body=' + body;
     window.open(mailtoLink, '_blank');
