@@ -25,8 +25,17 @@ function displayQRCodeData(docId) {
 
     docRef.get().then(function(doc) {
         if (doc.exists) {
-            var qrData = doc.data().url;
-            document.getElementById('qrCodeData').textContent = qrData.substring(0, 200); // Display first 200 characters
+            var qrDataURL = doc.data().url; // Get the data URL of the QR code image
+            var qrCodeImage = document.getElementById('qrCodeImage');
+
+            // Set the data URL as the source of the image
+            qrCodeImage.src = qrDataURL;
+
+            // Display the image
+            qrCodeImage.style.display = 'block';
+
+            // Optionally, you can hide the QR code data text
+            document.getElementById('qrCodeData').style.display = 'none';
         } else {
             console.log("No such document!");
             document.getElementById('qrCodeData').textContent = "No such document!";
@@ -36,6 +45,7 @@ function displayQRCodeData(docId) {
         document.getElementById('qrCodeData').textContent = "Error: " + error;
     });
 }
+
 
 // For testing with a hardcoded document ID
 var testDocId = 'XVg9Fgmm3Sz43DRRTuhB'; // Replace with a valid document ID from Firestore
