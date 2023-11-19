@@ -1,6 +1,7 @@
 document.getElementById('trueButton').addEventListener('click', generateQR);
 document.getElementById('falseButton').addEventListener('click', generateQR);
-document.getElementById('emailButton').addEventListener('click', sendEmail);
+// The line below is not needed as the email is sent from within the generateQR function
+// document.getElementById('emailButton').addEventListener('click', sendEmail);
 
 function generateQR() {
     var qr = new QRious({
@@ -21,15 +22,14 @@ function generateQR() {
     });
 }
 
-
 function sendEmail(docId) {
     var username = document.getElementById('username').value;
     var email = username + '@upmc.edu';
 
     var subject = encodeURIComponent('Your QR Code for Food for Thought');
-    var body = encodeURIComponent('Access your QR code here: ') + window.location.origin + '/qrDisplay.html?docId=' + docId;
+    // Corrected the URL concatenation
+    var body = encodeURIComponent('Access your QR code here: ') + encodeURIComponent(window.location.origin + '/qrDisplay.html?docId=' + docId);
 
     var mailtoLink = 'mailto:' + email + '?subject=' + subject + '&body=' + body;
     window.open(mailtoLink, '_blank');
 }
-
