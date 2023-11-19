@@ -1,29 +1,30 @@
-// Assuming Firebase is already initialized in firebaseConfig.js
-
 function getQueryParam(param) {
     var urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
 }
 
-function displayQRCode(docId) {
+function displayQRCodeData(docId) {
     var docRef = firebase.firestore().collection('qrcodes').doc(docId);
 
     docRef.get().then(function(doc) {
         if (doc.exists) {
-            document.getElementById('qrCodeImage').src = doc.data().url;
+            // Retrieve the data URL from Firestore and display it as text
+            var qrData = doc.data().url;
+            document.getElementById('qrCodeData').textContent = qrData.substring(0, 200); // Display first 200 characters
         } else {
             console.log("No such document!");
-            // Handle the error (e.g., display a not-found message)
+            document.getElementById('qrCodeData').textContent = "No such document!";
         }
     }).catch(function(error) {
         console.log("Error getting document:", error);
+        document.getElementById('qrCodeData').textContent = "Error: " + error;
     });
 }
 
 var docId = getQueryParam('docId');
 if (docId) {
-    displayQRCode(docId);
+    displayQRCodeData(docId);
 } else {
     console.log("Document ID not provided");
-    // Handle the error (e.g., display an error message)
+    document.getElementById('qrCodeData').textContent = "Document ID not provided";
 }
