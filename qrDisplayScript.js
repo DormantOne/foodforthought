@@ -1,3 +1,20 @@
+
+
+// Initialize Firebase (replace with your own Firebase configuration)
+var firebaseConfig = {
+            apiKey: "AIzaSyBwaG48VZccslds53WxfY378P0iXqPtLac",
+            authDomain: "foodforthought-e29a4.firebaseapp.com",
+            projectId: "foodforthought-e29a4",
+            storageBucket: "foodforthought-e29a4.appspot.com",
+            messagingSenderId: "752853183245",
+            appId: "1:752853183245:web:036a462f1635b7ece69e44",
+            measurementId: "G-0SMWPDL345"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+
+
 function getQueryParam(param) {
     var urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
