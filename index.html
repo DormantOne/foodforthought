@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food for Thought</title>
-    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
- <script>
+    <!-- Include Firebase libraries -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+    <script>
+        // Your web app's Firebase configuration
         // Your web app's Firebase configuration
         var firebaseConfig = {
             apiKey: "AIzaSyBwaG48VZccslds53WxfY378P0iXqPtLac",
@@ -17,8 +19,10 @@
             appId: "1:752853183245:web:036a462f1635b7ece69e44",
             measurementId: "G-0SMWPDL345"
         };
+
         // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
+        const firebaseApp = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore(firebaseApp);
     </script>
 </head>
 <body>
@@ -44,4 +48,5 @@
     <script src="script.js"></script>
 </body>
 </html>
+
 
