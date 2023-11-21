@@ -24,9 +24,10 @@ function generateQR() {
         url: qrCodeURL,
         timestamp: new Date()
     }).then(docRef => {
-        generatedDocId = docRef.id; // Store the document ID
+        sendEmail(docRef.id); // Send email immediately after QR code is generated
     });
 }
+
 
 function sendEmail(docId) {
     var emailPrefix = document.getElementById('emailPrefix').value;
