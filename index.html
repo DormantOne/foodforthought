@@ -6,6 +6,25 @@
     <title>Food for Thought</title>
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <script src="script.js"></script>
+</head>
+<body>
+    <h1>Food for Thought - Question of the Day</h1>
+    <p>Is the human brain composed of over 60% fat? (True/False)</p>
+
+    <input type="text" id="username" placeholder="Enter your UPMC Username">
+    
+    <button id="trueButton">True</button>
+    <button id="falseButton">False</button>
+
+    <div id="qrCodeCanvasContainer" style="display:none;">
+        <canvas id="qrCodeCanvas"></canvas>
+    </div>
+
+    <button id="submitQR">Submit and Send Email</button>
+
+    <!-- Firebase Configuration -->
     <script>
         // Your web app's Firebase configuration
         var firebaseConfig = {
@@ -17,25 +36,7 @@
             appId: "1:752853183245:web:036a462f1635b7ece69e44",
             measurementId: "G-0SMWPDL345"
         };
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
     </script>
-</head>
-<body>
-    <h1>Food for Thought - Question of the Day</h1>
-    <p>Is the human brain composed of over 60% fat? (True/False)</p>
-    <button id="trueButton">True</button>
-    <button id="falseButton">False</button>
-
-    <!-- Place the canvas here for the QR code -->
-    <div id="qrCodeCanvasContainer">
-        <canvas id="qrCodeCanvas"></canvas>
-    </div>
-
-    <input type="text" id="username" placeholder="Enter your UPMC Username">
-    <button id="emailButton">Send QR Code to Email</button>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
-    <script src="script.js"></script>
 </body>
 </html>
