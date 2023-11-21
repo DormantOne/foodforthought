@@ -1,5 +1,7 @@
 document.getElementById('trueButton').addEventListener('click', generateQR);
 document.getElementById('falseButton').addEventListener('click', generateQR);
+// The line below is not needed as the email is sent from within the generateQR function
+// document.getElementById('emailButton').addEventListener('click', sendEmail);
 
 function generateQR() {
     var qr = new QRious({
@@ -11,22 +13,21 @@ function generateQR() {
     var qrCodeCanvas = document.getElementById('qrCodeCanvas');
     var qrCodeURL = qrCodeCanvas.toDataURL("image/png");
 
-    // Add to Firestore and then send the email
+    // Add to Firestore
     firebase.firestore().collection('qrcodes').add({
         url: qrCodeURL,
-        timestamp: new Date()
+        timestamp: new Date() // Optional, for record-keeping
     }).then(docRef => {
-        console.log("Document created with ID:", docRef.id); // For debugging
-        sendEmail(docRef.id); // Call sendEmail with the Firestore document ID
-    }).catch(error => {
-        console.error("Error adding document to Firestore:", error);
+        sendEmail(docRef.id); // Call sendEmail with the document ID
     });
 }
 
 function sendEmail(docId) {
-    var emailPrefix = document.getElementById('emailPrefix').value;
-    var email = emailPrefix + '@upmc.edu';
+    var username = document.getElementById('username').value;
+    var email = username + '@upmc.edu';
     var subject = encodeURIComponent('Your QR Code for Food for Thought');
+    
+    // Include the repository name in the URL
     var body = encodeURIComponent('Access your QR code here: ') + encodeURIComponent(`https://dormantone.github.io/foodforthought/qrDisplay.html?docId=${docId}`);
 
     var mailtoLink = 'mailto:' + email + '?subject=' + subject + '&body=' + body;
