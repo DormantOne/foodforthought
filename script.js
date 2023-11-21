@@ -16,7 +16,10 @@ function generateQR() {
         url: qrCodeURL,
         timestamp: new Date()
     }).then(docRef => {
+        console.log("Document created with ID:", docRef.id); // For debugging
         sendEmail(docRef.id); // Call sendEmail with the Firestore document ID
+    }).catch(error => {
+        console.error("Error adding document to Firestore:", error);
     });
 }
 
