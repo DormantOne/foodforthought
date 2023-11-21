@@ -6,7 +6,7 @@
     <title>Food for Thought</title>
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
-    <script>
+ <script>
         // Your web app's Firebase configuration
         var firebaseConfig = {
             apiKey: "AIzaSyBwaG48VZccslds53WxfY378P0iXqPtLac",
@@ -24,10 +24,10 @@
 <body>
     <h1>Food for Thought - Question of the Day</h1>
 
-    <!-- Add an input field for email prefix -->
+    <!-- Email prefix input at the top -->
     <label for="emailPrefix">Email Prefix:</label>
-    <input type="text" id="emailPrefix" placeholder="Enter your UPMC Email Prefix">
-    
+    <input type="text" id="emailPrefix" placeholder="Enter your Email Prefix">
+
     <p>Is the human brain composed of over 60% fat? (True/False)</p>
     <button id="trueButton">True</button>
     <button id="falseButton">False</button>
@@ -37,10 +37,11 @@
         <canvas id="qrCodeCanvas"></canvas>
     </div>
 
-    <input type="text" id="username" placeholder="Enter your UPMC Username">
-    <button id="emailButton">Send QR Code to Email</button>
+    <!-- Send button at the bottom to send the email -->
+    <button id="sendEmailButton">Send QR Code to Email</button>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
+
