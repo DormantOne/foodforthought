@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food for Thought</title>
-    <!-- Include Firebase libraries -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
-    <script>
+    <!-- Firebase v9+ configuration -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
+        import { getFirestore, collection, addDoc } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js';
+
         // Your web app's Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBwaG48VZccslds53WxfY378P0iXqPtLac",
@@ -20,8 +22,13 @@
         };
 
         // Initialize Firebase
-        const firebaseApp = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore(firebaseApp);
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Export db to be used in other scripts
+        window.db = db;
+        window.collection = collection;
+        window.addDoc = addDoc;
     </script>
 </head>
 <body>
@@ -44,6 +51,6 @@
     <button id="sendEmailButton">Send QR Code to Email</button>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
