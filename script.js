@@ -1,34 +1,44 @@
-document.getElementById('trueButton').addEventListener('click', generateQR);
-document.getElementById('falseButton').addEventListener('click', generateQR);
-// The line below is not needed as the email is sent from within the generateQR function
-// document.getElementById('emailButton').addEventListener('click', sendEmail);
+document.getElementById('trueButton').addEventListener('click', () => generateQR('True'));
+document.getElementById('falseButton').addEventListener('click', () => generateQR('False'));
+document.getElementById('submitQR').addEventListener('click', sendEmail);
 
-function generateQR() {
+var qrValue = '';
+var docId = '';
+
+function generateQR(answer) {
+    var username = document.getElementById('username').value;
+    qrValue = `Username: ${username}, Answer: ${answer}`;
+
     var qr = new QRious({
         element: document.getElementById('qrCodeCanvas'),
         size: 200,
-        value: 'Your unique response code'
+        value: qrValue
     });
 
     var qrCodeCanvas = document.getElementById('qrCodeCanvas');
     var qrCodeURL = qrCodeCanvas.toDataURL("image/png");
 
-    // Add to Firestore
     firebase.firestore().collection('qrcodes').add({
+        username: username,
+        answer: answer,
         url: qrCodeURL,
-        timestamp: new Date() // Optional, for record-keeping
+        timestamp: new Date()
     }).then(docRef => {
-        sendEmail(docRef.id); // Call sendEmail with the document ID
+        docId = docRef.id;
     });
 }
 
-function sendEmail(docId) {
+function sendEmail() {
+    if (!qrValue || !docId) {
+        alert('Please generate a QR code first.');
+        return;
+    }
+
     var username = document.getElementById('username').value;
     var email = username + '@upmc.edu';
     var subject = encodeURIComponent('Your QR Code for Food for Thought');
-    
-    // Include the repository name in the URL
-    var body = encodeURIComponent('Access your QR code here: ') + encodeURIComponent(`https://dormantone.github.io/foodforthought/qrDisplay.html?docId=${docId}`);
+    var body = encodeURIComponent('Access your QR code here: ') + 
+               encodeURIComponent(`https://dormantone.github.io/foodforthought/qrDisplay.html?docId=${docId}`);
 
     var mailtoLink = 'mailto:' + email + '?subject=' + subject + '&body=' + body;
     window.open(mailtoLink, '_blank');
