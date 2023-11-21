@@ -1,3 +1,4 @@
+// script.js
 let generatedDocId = null; // Global variable to store the document ID
 
 document.getElementById('trueButton').addEventListener('click', generateQR);
@@ -20,11 +21,11 @@ function generateQR() {
     var qrCodeCanvas = document.getElementById('qrCodeCanvas');
     var qrCodeURL = qrCodeCanvas.toDataURL("image/png");
 
-    db.collection('qrcodes').add({
+    window.addDoc(window.collection(window.db, 'qrcodes'), {
         url: qrCodeURL,
         timestamp: new Date()
     }).then(docRef => {
-        generatedDocId = docRef.id; // Store the document ID for later use
+        generatedDocId = docRef.id;
     }).catch(error => {
         console.error("Error adding document to Firestore:", error);
     });
