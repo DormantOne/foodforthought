@@ -11,12 +11,12 @@ function generateQR() {
     var qrCodeCanvas = document.getElementById('qrCodeCanvas');
     var qrCodeURL = qrCodeCanvas.toDataURL("image/png");
 
-    // Add to Firestore
+    // Add to Firestore and then send the email
     firebase.firestore().collection('qrcodes').add({
         url: qrCodeURL,
-        timestamp: new Date() // Optional, for record-keeping
+        timestamp: new Date()
     }).then(docRef => {
-        sendEmail(docRef.id); // Call sendEmail with the document ID
+        sendEmail(docRef.id); // Call sendEmail with the Firestore document ID
     });
 }
 
@@ -24,7 +24,6 @@ function sendEmail(docId) {
     var emailPrefix = document.getElementById('emailPrefix').value;
     var email = emailPrefix + '@upmc.edu';
     var subject = encodeURIComponent('Your QR Code for Food for Thought');
-    
     var body = encodeURIComponent('Access your QR code here: ') + encodeURIComponent(`https://dormantone.github.io/foodforthought/qrDisplay.html?docId=${docId}`);
 
     var mailtoLink = 'mailto:' + email + '?subject=' + subject + '&body=' + body;
