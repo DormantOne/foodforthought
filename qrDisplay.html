@@ -6,19 +6,18 @@
     <title>QR Code Display</title>
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
-    <style>
-        #qrCodeImage {
-            max-width: 200px; /* Adjust the size as needed */
-            height: auto;
-        }
-    </style>
 </head>
 <body>
-    <h1>Your QR Code Data</h1>
-    <p id="qrCodeData"></p>
-    <h1>Your QR Code</h1>
-    <img id="qrCodeImage" src="" alt="QR Code">
-    <script src="firebaseConfig.js"></script> <!-- Your Firebase configuration script -->
-    <script src="qrDisplayScript.js"></script> <!-- Script to handle QR code retrieval and display -->
+    <h1>QR Code Display</h1>
+    <img id="qrCodeImage" src="" alt="QR Code" style="width:200px; height:200px;">
+    <p id="qrCodeData">Loading...</p>
+
+    <script>
+        var firebaseConfig = {
+            // Your Firebase configuration
+        };
+        firebase.initializeApp(firebaseConfig);
+    </script>
+    <script src="qrDisplayScript.js"></script>
 </body>
 </html>
