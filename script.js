@@ -24,10 +24,11 @@ function generateQR() {
         url: qrCodeURL,
         timestamp: new Date()
     }).then(docRef => {
-        sendEmail(docRef.id); // Send email immediately after QR code is generated
+        generatedDocId = docRef.id; // Store the document ID for later use
+    }).catch(error => {
+        console.error("Error adding document to Firestore:", error);
     });
 }
-
 
 function sendEmail(docId) {
     var emailPrefix = document.getElementById('emailPrefix').value;
