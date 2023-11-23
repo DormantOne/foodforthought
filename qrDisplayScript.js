@@ -25,10 +25,11 @@ function displayQRCodeData(docId) {
 
     docRef.get().then(function(doc) {
         if (doc.exists) {
-            var qrDataURL = doc.data().url; // Get the data URL of the QR code image
+            var qrDataURL = doc.data().qrCodeDataUrl; // Fetch the QR code data URL
             var qrCodeImage = document.getElementById('qrCodeImage');
-            qrCodeImage.src = qrDataURL; // Set the data URL as the source of the image
+            qrCodeImage.src = qrDataURL; // Set the QR code data URL as the source of the image
             qrCodeImage.style.display = 'block';
+            document.getElementById('qrCodeData').style.display = 'none'; // Hide the loading text
         } else {
             console.log("No such document!");
             document.getElementById('qrCodeData').textContent = "No such document!";
@@ -38,6 +39,7 @@ function displayQRCodeData(docId) {
         document.getElementById('qrCodeData').textContent = "Error: " + error;
     });
 }
+
 
 // Uncomment the following lines to use dynamic document ID from URL
 var docId = getQueryParam('docId');
