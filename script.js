@@ -6,30 +6,33 @@ document.addEventListener('DOMContentLoaded', function() {
     var qrValue = '';
     var docId = '';
 
-    function generateQR(answer) {
-        var username = document.getElementById('username').value;
-        qrValue = `Username: ${username}, Answer: ${answer}`;
+function generateQR(answer) {
+    var username = document.getElementById('username').value;
+    var question = encodeURIComponent('Is the human brain composed of over 60% fat?');
+    
+    // Construct the URL for the QR code
+    var formPageUrl = `https://dormantone.github.io/foodforthought/formPage.html?username=${encodeURIComponent(username)}&question=${question}&answer=${encodeURIComponent(answer)}`;
 
-        var qr = new QRious({
-            element: document.getElementById('qrCodeCanvas'),
-            size: 200,
-            value: qrValue
-        });
+    var qr = new QRious({
+        element: document.getElementById('qrCodeCanvas'),
+        size: 200,
+        value: formPageUrl // Use the form page URL as the QR code value
+    });
 
-        document.getElementById('qrCodeCanvasContainer').style.display = 'block';
+    document.getElementById('qrCodeCanvasContainer').style.display = 'block';
 
-        var qrCodeCanvas = document.getElementById('qrCodeCanvas');
-        var qrCodeURL = qrCodeCanvas.toDataURL("image/png");
+    // Store the QR code data in Firestore
+    firebase.firestore().collection('qrcodes').add({
+        username: username,
+        question: 'Is the human brain composed of over 60% fat?',
+        answer: answer,
+        url: formPageUrl, // Store the URL instead of the data URL
+        timestamp: new Date()
+    }).then(docRef => {
+        docId = docRef.id;
+    });
+}
 
-        firebase.firestore().collection('qrcodes').add({
-            username: username,
-            answer: answer,
-            url: qrCodeURL,
-            timestamp: new Date()
-        }).then(docRef => {
-            docId = docRef.id;
-        });
-    }
 
     function sendEmail() {
         if (!qrValue || !docId) {
