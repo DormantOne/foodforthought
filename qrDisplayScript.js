@@ -1,4 +1,3 @@
-
 // Check if Firebase has already been initialized
 if (!firebase.apps.length) {
     var firebaseConfig = {
@@ -29,7 +28,7 @@ function displayQRCodeData(docId) {
             var qrCodeImage = document.getElementById('qrCodeImage');
             qrCodeImage.src = qrDataURL; // Set the QR code data URL as the source of the image
             qrCodeImage.style.display = 'block';
-            document.getElementById('qrCodeData').style.display = 'none'; // Hide the loading text
+            document.getElementById('qrCodeData').textContent = '';
         } else {
             console.log("No such document!");
             document.getElementById('qrCodeData').textContent = "No such document!";
@@ -40,8 +39,7 @@ function displayQRCodeData(docId) {
     });
 }
 
-
-// Uncomment the following lines to use dynamic document ID from URL
+// Fetch and display data using the document ID from the URL
 var docId = getQueryParam('docId');
 if (docId) {
     displayQRCodeData(docId);
