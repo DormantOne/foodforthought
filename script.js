@@ -7,23 +7,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function generateQR(answer) {
         var username = document.getElementById('username').value;
-        var qrValue = `Username: ${username}, Answer: ${answer}`;
+        var question = 'Is the human brain composed of over 60% fat?'; // Your actual question
+        var encodedQuestion = encodeURIComponent(question);
+        var encodedAnswer = encodeURIComponent(answer);
+
+        // Construct the URL for the QR code
+        var formPageUrl = `https://dormantone.github.io/foodforthought/formPage.html?username=${encodeURIComponent(username)}&question=${encodedQuestion}&answer=${encodedAnswer}`;
 
         var qr = new QRious({
             element: document.getElementById('qrCodeCanvas'),
             size: 200,
-            value: qrValue // The actual data you want to encode in the QR code
+            value: formPageUrl // Use the form page URL as the QR code value
         });
 
         document.getElementById('qrCodeCanvasContainer').style.display = 'block';
 
-        var qrCodeDataURL = document.getElementById('qrCodeCanvas').toDataURL("image/png");
-
         // Store the QR code data URL in Firestore
+        var qrCodeDataURL = document.getElementById('qrCodeCanvas').toDataURL("image/png");
         firebase.firestore().collection('qrcodes').add({
             qrCodeDataUrl: qrCodeDataURL,
             username: username,
-            question: 'Is the human brain composed of over 60% fat?',
+            question: question,
             answer: answer,
             timestamp: new Date()
         }).then(docRef => {
