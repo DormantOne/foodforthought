@@ -1,5 +1,6 @@
 // Parse URL parameters and populate form fields
 function populateFormFields() {
+    console.log("Populating form fields...");
     var urlParams = new URLSearchParams(window.location.search);
     document.getElementById('username').value = urlParams.get('username') || '';
     document.getElementById('question').value = urlParams.get('question') || '';
@@ -8,6 +9,7 @@ function populateFormFields() {
 
 // Initialize supplies if not already done
 function initializeSupplies() {
+    console.log("Checking and initializing supplies...");
     var suppliesRef = firebase.firestore().collection('supplies').doc('total');
 
     suppliesRef.get().then(doc => {
@@ -27,6 +29,7 @@ function initializeSupplies() {
 // Add event listener for form submission
 document.getElementById('responseForm').addEventListener('submit', function(event) {
     event.preventDefault();
+    console.log("Form submission triggered...");
 
     var username = document.getElementById('username').value;
     var question = document.getElementById('question').value;
@@ -36,6 +39,7 @@ document.getElementById('responseForm').addEventListener('submit', function(even
     var suppliesRef = firebase.firestore().collection('supplies').doc('total');
 
     firebase.firestore().runTransaction(transaction => {
+        console.log("Running transaction...");
         return transaction.get(suppliesRef).then(supplyDoc => {
             if (!supplyDoc.exists || supplyDoc.data().count <= 0) {
                 throw 'Sorry - supplies are exhausted.';
@@ -58,15 +62,17 @@ document.getElementById('responseForm').addEventListener('submit', function(even
             });
         });
     }).then(newSupplyCount => {
+        console.log('Response successfully redeemed. Supplies remaining:', newSupplyCount);
         alert('Response successfully redeemed. Supplies remaining: ' + newSupplyCount);
     }).catch(error => {
-        console.error('Transaction failed: ', error);
+        console.error('Transaction failed:', error);
         alert(error);
     });
 });
 
 // Call function to populate fields and initialize supplies when the page loads
 document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOMContentLoaded event triggered");
     populateFormFields();
     initializeSupplies();
 });
