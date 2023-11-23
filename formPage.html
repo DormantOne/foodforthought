@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Response Form</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label, input {
+            margin-bottom: 10px;
+        }
+        input[readonly] {
+            background-color: #f3f3f3;
+        }
+        form {
+            max-width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Response Form</h1>
+    <form id="responseForm">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" readonly>
+        </div>
+        <div>
+            <label for="question">Question:</label>
+            <input type="text" id="question" name="question" readonly>
+        </div>
+        <div>
+            <label for="answer">Answer:</label>
+            <input type="text" id="answer" name="answer" readonly>
+        </div>
+        <div>
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+
+    <!-- Link to the external JavaScript file -->
+    <script src="formScript.js"></script>
+</body>
+</html>
