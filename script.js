@@ -12,23 +12,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var docId = '';
 
-    function submitAnswer() {
-        var selectedAnswer = trueAnswer.checked ? 'True' : falseAnswer.checked ? 'False' : null;
-        var correctAnswer = 'True'; // Assuming 'True' is the correct answer
+function submitAnswer() {
+    var selectedAnswer = trueAnswer.checked ? 'True' : falseAnswer.checked ? 'False' : null;
+    var correctAnswer = 'True'; // Assuming 'True' is the correct answer
 
-        if (!selectedAnswer) {
-            alert('Please select an answer.');
-            return;
-        }
-
-        if (selectedAnswer === correctAnswer) {
-            document.getElementById('emailStatus').innerText = 'Correct! You can now send your QR coupon.';
-            generateQR(selectedAnswer);
-            submitQRButton.disabled = false;
-        } else {
-            document.getElementById('emailStatus').innerText = 'Wrong answer. Please try again.';
-        }
+    if (!selectedAnswer) {
+        alert('Please select an answer.');
+        return;
     }
+
+    if (selectedAnswer === correctAnswer) {
+        document.getElementById('emailStatus').innerText = 'Correct! You can now send your QR coupon.';
+        generateQR(selectedAnswer);
+        submitQRButton.disabled = false; // Ensure this line is executed
+    } else {
+        document.getElementById('emailStatus').innerText = 'Wrong answer. Please try again.';
+        submitQRButton.disabled = true; // Disable the button if the answer is wrong
+    }
+}
+
 
     function generateQR(answer) {
         var username = document.getElementById('username').value;
