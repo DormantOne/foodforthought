@@ -1,13 +1,22 @@
 document.addEventListener('DOMContentLoaded', function() {
-    var trueButton = document.getElementById('trueButton');
-    var falseButton = document.getElementById('falseButton');
-    var submitButton = document.getElementById('submitQR');
+    var submitAnswerButton = document.getElementById('submitAnswer');
+    var submitQRButton = document.getElementById('submitQR');
+    var trueAnswer = document.getElementById('trueAnswer');
+    var falseAnswer = document.getElementById('falseAnswer');
 
-    trueButton.addEventListener('click', () => generateQR('True'));
-    falseButton.addEventListener('click', () => generateQR('False'));
-    submitButton.addEventListener('click', sendEmail);
+    submitAnswerButton.addEventListener('click', submitAnswer);
+    submitQRButton.addEventListener('click', sendEmail);
 
     var docId = '';
+
+    function submitAnswer() {
+        var selectedAnswer = trueAnswer.checked ? 'True' : falseAnswer.checked ? 'False' : null;
+        if (!selectedAnswer) {
+            alert('Please select an answer.');
+            return;
+        }
+        generateQR(selectedAnswer);
+    }
 
     function generateQR(answer) {
         var username = document.getElementById('username').value;
@@ -15,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var encodedQuestion = encodeURIComponent(question);
         var encodedAnswer = encodeURIComponent(answer);
 
-        var formPageUrl = `https://dormantone.github.io/foodforthought/formPage.html?username=${encodeURIComponent(username)}&question=${encodedQuestion}&answer=${encodedAnswer}`;
+        var formPageUrl = `https://yourwebsite.com/formPage.html?username=${encodeURIComponent(username)}&question=${encodedQuestion}&answer=${encodedAnswer}`;
 
         var qr = new QRious({
             element: document.getElementById('qrCodeCanvas'),
@@ -43,14 +52,10 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        trueButton.disabled = true;
-        falseButton.disabled = true;
-        submitButton.disabled = true;
-
         var username = document.getElementById('username').value;
         var email = username + '@upmc.edu';
         var subject = 'Your QR Code for Food for Thought';
-        var body = `Access your QR code data here: https://dormantone.github.io/foodforthought/qrDisplay.html?docId=${docId}`;
+        var body = `Access your QR code data here: https://yourwebsite.com/qrDisplay.html?docId=${docId}`;
 
         var payload = {
             email: email,
@@ -67,17 +72,18 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(data => {
-            document.getElementById('emailStatus').innerText = 'Email sent successfully.';
+            document.getElementById('emailStatus').innerText = 'Email sent successfully. Button will be reactivated in 3 minutes.';
             console.log('Email sent successfully:', data);
+
+            submitQRButton.disabled = true;
+            setTimeout(() => {
+                submitQRButton.disabled = false;
+                document.getElementById('emailStatus').innerText = '';
+            }, 180000); // 180000 milliseconds = 3 minutes
         })
         .catch((error) => {
             document.getElementById('emailStatus').innerText = 'Error sending email. Please try again.';
             console.error('Error sending email:', error);
-        })
-        .finally(() => {
-            trueButton.disabled = false;
-            falseButton.disabled = false;
-            submitButton.disabled = false;
         });
     }
 });
