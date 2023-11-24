@@ -9,18 +9,23 @@
 </head>
 <body>
     <h1>Food for Thought - Question of the Day</h1>
-    <p>Is the human brain composed of over 60% fat? (True/False)</p>
-
-    <input type="text" id="username" placeholder="Enter your UPMC Username">
     
-    <button id="trueButton">True</button>
-    <button id="falseButton">False</button>
+    <input type="text" id="username" placeholder="Enter your UPMC Username">
+
+    <p>Is the human brain composed of over 60% fat? (True/False)</p>
+    
+    <input type="radio" id="trueAnswer" name="answer" value="True">
+    <label for="trueAnswer">True</label><br>
+    <input type="radio" id="falseAnswer" name="answer" value="False">
+    <label for="falseAnswer">False</label><br>
+
+    <button id="submitAnswer">Submit Answer</button>
 
     <div id="qrCodeCanvasContainer" style="display:none;">
         <canvas id="qrCodeCanvas"></canvas>
     </div>
 
-    <button id="submitQR">Submit and Send Email</button>
+    <button id="submitQR">Send me my QR Coupon</button>
 
     <div id="emailStatus"></div>
 
@@ -28,13 +33,7 @@
     <script src="script.js"></script>
     <script>
         var firebaseConfig = {
-            apiKey: "AIzaSyBwaG48VZccslds53WxfY378P0iXqPtLac",
-            authDomain: "foodforthought-e29a4.firebaseapp.com",
-            projectId: "foodforthought-e29a4",
-            storageBucket: "foodforthought-e29a4.appspot.com",
-            messagingSenderId: "752853183245",
-            appId: "1:752853183245:web:036a462f1635b7ece69e44",
-            measurementId: "G-0SMWPDL345"
+            // Your Firebase configuration
         };
         firebase.initializeApp(firebaseConfig);
     </script>
