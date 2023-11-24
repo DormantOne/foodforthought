@@ -29,9 +29,24 @@
 
     <div id="emailStatus"></div>
 
-    <!-- Include QRious library -->
+    <!-- Firebase Initialization -->
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyBwaG48VZccslds53WxfY378P0iXqPtLac",
+            authDomain: "foodforthought-e29a4.firebaseapp.com",
+            projectId: "foodforthought-e29a4",
+            storageBucket: "foodforthought-e29a4.appspot.com",
+            messagingSenderId: "752853183245",
+            appId: "1:752853183245:web:036a462f1635b7ece69e44",
+            measurementId: "G-0SMWPDL345"
+        };
+        firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <!-- QRious Library -->
     <script src="https://cdn.jsdelivr.net/npm/qrious/dist/qrious.min.js"></script>
-    <!-- Your script file -->
+
+    <!-- Your JavaScript File -->
     <script src="script.js"></script>
 </body>
 </html>
