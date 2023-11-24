@@ -4,33 +4,38 @@ document.addEventListener('DOMContentLoaded', function() {
     var trueAnswer = document.getElementById('trueAnswer');
     var falseAnswer = document.getElementById('falseAnswer');
 
-    // Initially, the QR code submit button is disabled
-    submitQRButton.disabled = true;
+    submitQRButton.disabled = true; // Initially disable the QR code submit button
+    console.log("Submit QR Button initially disabled");
 
     submitAnswerButton.addEventListener('click', submitAnswer);
     submitQRButton.addEventListener('click', sendEmail);
 
     var docId = '';
 
-function submitAnswer() {
-    var selectedAnswer = trueAnswer.checked ? 'True' : falseAnswer.checked ? 'False' : null;
-    var correctAnswer = 'True'; // Assuming 'True' is the correct answer
+    function submitAnswer() {
+        var selectedAnswer = trueAnswer.checked ? 'True' : falseAnswer.checked ? 'False' : null;
+        console.log("Selected answer:", selectedAnswer);
 
-    if (!selectedAnswer) {
-        alert('Please select an answer.');
-        return;
+        var correctAnswer = 'True'; // Assuming 'True' is the correct answer
+
+        if (!selectedAnswer) {
+            console.log("No answer selected");
+            alert('Please select an answer.');
+            return;
+        }
+
+        if (selectedAnswer === correctAnswer) {
+            console.log("Correct answer");
+            document.getElementById('emailStatus').innerText = 'Correct! You can now send your QR coupon.';
+            generateQR(selectedAnswer);
+            submitQRButton.disabled = false;
+            console.log("Submit QR Button should now be enabled");
+        } else {
+            console.log("Incorrect answer");
+            document.getElementById('emailStatus').innerText = 'Wrong answer. Please try again.';
+            submitQRButton.disabled = true;
+        }
     }
-
-    if (selectedAnswer === correctAnswer) {
-        document.getElementById('emailStatus').innerText = 'Correct! You can now send your QR coupon.';
-        generateQR(selectedAnswer);
-        submitQRButton.disabled = false; // Ensure this line is executed
-    } else {
-        document.getElementById('emailStatus').innerText = 'Wrong answer. Please try again.';
-        submitQRButton.disabled = true; // Disable the button if the answer is wrong
-    }
-}
-
 
     function generateQR(answer) {
         var username = document.getElementById('username').value;
@@ -57,11 +62,14 @@ function submitAnswer() {
             timestamp: new Date()
         }).then(docRef => {
             docId = docRef.id; 
+            console.log("QR generated and doc ID set:", docId);
         });
     }
 
     function sendEmail() {
+        console.log("Attempting to send email");
         if (!docId) {
+            console.log("No QR code generated, cannot send email");
             alert('Please generate a QR code first.');
             return;
         }
