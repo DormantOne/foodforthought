@@ -43,11 +43,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
         var username = document.getElementById('username').value;
         var email = username + '@upmc.edu';
-        var subject = encodeURIComponent('Your QR Code for Food for Thought');
-        var body = encodeURIComponent('Access your QR code data here: ') + 
-                   encodeURIComponent(`https://dormantone.github.io/foodforthought/qrDisplay.html?docId=${docId}`);
+        var subject = 'Your QR Code for Food for Thought';
+        var body = `Access your QR code data here: https://dormantone.github.io/foodforthought/qrDisplay.html?docId=${docId}`;
 
-        var mailtoLink = 'mailto:' + email + '?subject=' + subject + '&body=' + body;
-        window.open(mailtoLink, '_blank');
+        // Prepare payload for the HTTP request
+        var payload = {
+            email: email,
+            subject: subject,
+            body: body
+        };
+
+        // Call the Firebase Cloud Function to send the email
+        fetch('https://us-central1-foodforthought-e29a4.cloudfunctions.net/sendEmail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Email sent successfully:', data);
+        })
+        .catch((error) => {
+            console.error('Error sending email:', error);
+        });
     }
 });
