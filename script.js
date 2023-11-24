@@ -32,8 +32,70 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function generateQR(answer) {
         var username = document.getElementById('username').value;
-        // [Rest of the generateQR function]
+        var question = 'Is the human brain composed of over 60% fat?'; 
+        var encodedQuestion = encodeURIComponent(question);
+        var encodedAnswer = encodeURIComponent(answer);
+
+        var formPageUrl = `https://yourwebsite.com/formPage.html?username=${encodeURIComponent(username)}&question=${encodedQuestion}&answer=${encodedAnswer}`;
+
+        var qr = new QRious({
+            element: document.getElementById('qrCodeCanvas'),
+            size: 200,
+            value: formPageUrl
+        });
+
+        document.getElementById('qrCodeCanvasContainer').style.display = 'none';
+
+        var qrCodeDataURL = document.getElementById('qrCodeCanvas').toDataURL("image/png");
+        firebase.firestore().collection('qrcodes').add({
+            qrCodeDataUrl: qrCodeDataURL,
+            username: username,
+            question: question,
+            answer: answer,
+            timestamp: new Date()
+        }).then(docRef => {
+            docId = docRef.id; 
+        });
     }
 
-    // [Rest of the sendEmail function]
+    function sendEmail() {
+        if (!docId) {
+            alert('Please generate a QR code first.');
+            return;
+        }
+
+        var username = document.getElementById('username').value;
+        var email = username + '@upmc.edu';
+        var subject = 'Your QR Code for Food for Thought';
+        var body = `Access your QR code data here: https://yourwebsite.com/qrDisplay.html?docId=${docId}`;
+
+        var payload = {
+            email: email,
+            subject: subject,
+            body: body
+        };
+
+        fetch('https://us-central1-foodforthought-e29a4.cloudfunctions.net/sendEmail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('emailStatus').innerText = 'Email sent successfully. Button will be reactivated in 3 minutes.';
+            console.log('Email sent successfully:', data);
+
+            submitQRButton.disabled = true;
+            setTimeout(() => {
+                submitQRButton.disabled = false;
+                document.getElementById('emailStatus').innerText = '';
+            }, 180000); // 180000 milliseconds = 3 minutes
+        })
+        .catch((error) => {
+            document.getElementById('emailStatus').innerText = 'Error sending email. Please try again.';
+            console.error('Error sending email:', error);
+        });
+    }
 });
