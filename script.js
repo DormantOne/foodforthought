@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(doc => {
             if (doc.exists) {
                 var couponData = doc.data();
-                couponStatus.innerText = 'Remaining Coupons: ' + couponData.count;
+                couponStatus.innerText = 'Remaining Unredeamed Coupons: ' + couponData.count;
             } else {
                 couponStatus.innerText = 'No coupon data available.';
             }
