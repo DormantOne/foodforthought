@@ -4,9 +4,13 @@ document.addEventListener('DOMContentLoaded', function() {
     var trueAnswer = document.getElementById('trueAnswer');
     var falseAnswer = document.getElementById('falseAnswer');
     var answerStatus = document.getElementById('answerStatus');
+    var couponStatus = document.getElementById('couponStatus'); // Element to display coupon status
 
     // Initially disable the QR code submit button
     submitQRButton.disabled = true;
+
+    // Fetch and display the coupon count
+    checkCouponStatus();
 
     submitAnswerButton.addEventListener('click', submitAnswer);
     submitQRButton.addEventListener('click', sendEmail);
@@ -91,10 +95,29 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('emailStatus').innerText = 'Email sent successfully.';
             submitQRButton.disabled = true;
             submitQRButton.classList.remove('blink'); // Remove blinking effect after sending
+            checkCouponStatus(); // Re-check the coupon count after sending an email
         })
         .catch((error) => {
             document.getElementById('emailStatus').innerText = 'Error sending email. Please try again.';
             console.error('Error sending email:', error);
+        });
+    }
+
+    // Function to check and display the coupon status
+    function checkCouponStatus() {
+        firebase.firestore().collection('supplies').doc('total')
+        .get()
+        .then(doc => {
+            if (doc.exists) {
+                var couponData = doc.data();
+                couponStatus.innerText = 'Remaining Coupons: ' + couponData.count;
+            } else {
+                couponStatus.innerText = 'No coupon data available.';
+            }
+        })
+        .catch(error => {
+            couponStatus.innerText = 'Error fetching coupon data.';
+            console.error("Error getting document:", error);
         });
     }
 });
