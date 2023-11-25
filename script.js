@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var submitQRButton = document.getElementById('submitQR');
     var trueAnswer = document.getElementById('trueAnswer');
     var falseAnswer = document.getElementById('falseAnswer');
+    var answerStatus = document.getElementById('answerStatus');
 
     // Initially disable the QR code submit button
     submitQRButton.disabled = true;
@@ -17,16 +18,19 @@ document.addEventListener('DOMContentLoaded', function() {
         var correctAnswer = 'True'; // Assuming 'True' is the correct answer
 
         if (!selectedAnswer) {
-            alert('Please select an answer.');
+            answerStatus.innerText = 'Please select an answer.';
             return;
         }
 
         if (selectedAnswer === correctAnswer) {
+            answerStatus.innerText = 'Correct! You can now send your QR coupon.';
             generateQR(selectedAnswer);
             submitQRButton.disabled = false;
+            submitQRButton.classList.add('blink'); // Add blinking effect
         } else {
-            alert('Wrong answer. Please try again.');
+            answerStatus.innerText = 'Wrong answer. Please try again.';
             submitQRButton.disabled = true;
+            submitQRButton.classList.remove('blink'); // Remove blinking effect if present
         }
     }
 
@@ -84,9 +88,12 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Email sent successfully:', data);
+            document.getElementById('emailStatus').innerText = 'Email sent successfully.';
+            submitQRButton.disabled = true;
+            submitQRButton.classList.remove('blink'); // Remove blinking effect after sending
         })
         .catch((error) => {
+            document.getElementById('emailStatus').innerText = 'Error sending email. Please try again.';
             console.error('Error sending email:', error);
         });
     }
