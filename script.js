@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         var username = document.getElementById('username').value;
-        var email = username + '@upmc.edu';
+        var email = username + '@gmail.com';
         var subject = 'Your QR Code for Food for Thought';
         var body = `Access your QR code data here: https://dormantone.github.io/foodforthought/qrDisplay.html?docId=${docId}`;
 
